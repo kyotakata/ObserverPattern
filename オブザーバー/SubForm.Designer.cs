@@ -28,31 +28,27 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.WarningLabel = new System.Windows.Forms.Label();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // WarningLabel
             // 
             this.WarningLabel.Font = new System.Drawing.Font("MS UI Gothic", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.WarningLabel.Location = new System.Drawing.Point(12, 27);
+            this.WarningLabel.Location = new System.Drawing.Point(16, 34);
+            this.WarningLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.WarningLabel.Name = "WarningLabel";
-            this.WarningLabel.Size = new System.Drawing.Size(246, 108);
+            this.WarningLabel.Size = new System.Drawing.Size(328, 135);
             this.WarningLabel.TabIndex = 0;
             this.WarningLabel.Text = "label1";
             this.WarningLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // timer1
-            // 
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
             // SubForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(286, 153);
+            this.ClientSize = new System.Drawing.Size(381, 191);
             this.Controls.Add(this.WarningLabel);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "SubForm";
             this.Text = "サブ";
             this.ResumeLayout(false);
@@ -62,7 +58,6 @@
         #endregion
 
         private System.Windows.Forms.Label WarningLabel;
-        private System.Windows.Forms.Timer timer1;
     }
 }
 
