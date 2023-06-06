@@ -16,9 +16,20 @@ namespace オブザーバー
         {
             InitializeComponent();
 
+            this.Disposed += MainForm_Disposed;  // Disposeイベントを追加
             StartPosition = FormStartPosition.CenterScreen;
 
             WarningTimer.WarningAction += WarningTimer_WarningAction;
+        }
+
+        /// <summary>
+        /// 画面をDisopseする(離れる)時に通る
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MainForm_Disposed(object sender, EventArgs e)
+        {
+            WarningTimer.WarningAction -= WarningTimer_WarningAction;// Actionを抜く
         }
 
         private void WarningTimer_WarningAction(bool isWarning)
