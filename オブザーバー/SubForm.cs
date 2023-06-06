@@ -18,7 +18,8 @@ namespace オブザーバー
 
             this.Disposed += SubForm_Disposed;  // Disposeイベントを追加
             StartPosition = FormStartPosition.CenterScreen;
-            WarningTimer.WarningAction += WarningTimer_WarningAction;
+            //WarningTimer.WarningAction += WarningTimer_WarningAction;
+            WarningTimer.Add(WarningTimer_WarningAction);
 
         }
 
@@ -29,7 +30,8 @@ namespace オブザーバー
         /// <param name="e"></param>
         private void SubForm_Disposed(object sender, EventArgs e)
         {
-            WarningTimer.WarningAction -= WarningTimer_WarningAction;// Actionを抜く
+            //WarningTimer.WarningAction -= WarningTimer_WarningAction;// Actionを抜く
+            WarningTimer.Remove(WarningTimer_WarningAction);// Actionを抜く
         }
 
         private void WarningTimer_WarningAction(bool isWarning)
