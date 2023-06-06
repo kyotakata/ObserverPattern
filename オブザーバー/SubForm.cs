@@ -19,7 +19,7 @@ namespace オブザーバー
             this.Disposed += SubForm_Disposed;  // Disposeイベントを追加
             StartPosition = FormStartPosition.CenterScreen;
             //WarningTimer.WarningAction += WarningTimer_WarningAction;
-            WarningTimer.Add(WarningTimer_WarningAction);
+            //WarningTimer.Add(WarningTimer_WarningAction);
 
         }
 
@@ -56,5 +56,16 @@ namespace オブザーバー
 
         }
 
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox1.Checked)
+            {
+                WarningTimer.Add(WarningTimer_WarningAction);
+            }
+            else
+            {
+                WarningTimer.Remove(WarningTimer_WarningAction);
+            }
+        }
     }
 }

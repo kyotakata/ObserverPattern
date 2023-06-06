@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.WarningLabel = new System.Windows.Forms.Label();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // WarningLabel
@@ -42,22 +43,36 @@
             this.WarningLabel.Text = "label1";
             this.WarningLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(30, 12);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(89, 19);
+            this.checkBox1.TabIndex = 1;
+            this.checkBox1.Text = "自動更新";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
             // SubForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(381, 191);
+            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.WarningLabel);
             this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "SubForm";
             this.Text = "サブ";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
         private System.Windows.Forms.Label WarningLabel;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }
 
