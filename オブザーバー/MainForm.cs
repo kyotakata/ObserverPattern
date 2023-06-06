@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace オブザーバー
 {
-    public partial class MainForm : Form
+    public partial class MainForm : Form, INotify
     {
         public MainForm()
         {
@@ -19,8 +19,7 @@ namespace オブザーバー
             this.Disposed += MainForm_Disposed;  // Disposeイベントを追加
             StartPosition = FormStartPosition.CenterScreen;
 
-            //WarningTimer.WarningAction += WarningTimer_WarningAction;
-            WarningTimer.Add(WarningTimer_WarningAction);
+            WarningTimer.Add(this);// MainFormをINotifyとして追加する
         }
 
         /// <summary>
@@ -30,8 +29,7 @@ namespace オブザーバー
         /// <param name="e"></param>
         private void MainForm_Disposed(object sender, EventArgs e)
         {
-            //WarningTimer.WarningAction -= WarningTimer_WarningAction;// Actionを抜く
-            WarningTimer.Remove(WarningTimer_WarningAction);// Actionを抜く
+            WarningTimer.Remove(this);
         }
 
         private void WarningTimer_WarningAction(bool isWarning)
@@ -60,6 +58,27 @@ namespace オブザーバー
         {
             var f = new SubForm();
             f.Show();
+        }
+
+        public void Update(bool isWarning)
+        {
+            // コントロールが作成されたスレッド以外のスレッド上で
+            // UIスレッドで作成したコントロールにアクセスできない
+            // ので、以下をおまじない的に書く
+            this.Invoke((Action)delegate ()
+            {
+                if (isWarning)
+                {
+                    WarningLabel.Text = "警報";
+                    WarningLabel.BackColor = Color.Red;
+                }
+                else
+                {
+                    WarningLabel.Text = "正常";
+                    WarningLabel.BackColor = Color.Lime;
+                }
+            });
+
         }
     }
 }

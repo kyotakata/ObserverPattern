@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace オブザーバー
 {
@@ -10,7 +11,7 @@ namespace オブザーバー
     {
         private static System.Threading.Timer _timer;
 
-        private static event Action<bool> _warningAction;
+        private static List<INotify> _notifies = new List<INotify>();
 
         static WarningTimer()
         {
@@ -26,31 +27,25 @@ namespace オブザーバー
                 if (_isWarning != value)
                 {
                     _isWarning = value;
-                    _warningAction?.Invoke(value);// nullじゃなかったら登録されているイベントにInvoke(通知)する。下と同じ意味。
-                    //if (WarningAction != null)
-                    //{
-                    //    WarningAction.Invoke(value);
-                    //}
+                    foreach (var notify in _notifies)
+                    {
+                        notify.Update(value);
+                    }
                 }
             }
         }
 
-        public static void Add(Action<bool> action)
+        public static void Add(INotify notify)
         {
-            var contains = false;
-            if(_warningAction != null)    // nullチェック
+            if (!_notifies.Contains(notify))// 同じイベントが登録されないようにする
             {
-                contains = _warningAction.GetInvocationList().Contains(action);// 既に同じイベントを含んでいるか。含まれているならtrue
-            }
-            if (!contains)// 同じイベントが登録されないようにする
-            {
-                _warningAction += action;
+                _notifies.Add(notify);
             }
         }
 
-        public static void Remove(Action<bool> action)
+        public static void Remove(INotify notify)
         {
-            _warningAction -= action;
+            _notifies.Remove(notify);
         }
 
         public static void Start()

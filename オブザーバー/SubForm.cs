@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace オブザーバー
 {
-    public partial class SubForm : Form
+    public partial class SubForm : Form, INotify
     {
         public SubForm()
         {
@@ -18,8 +18,6 @@ namespace オブザーバー
 
             this.Disposed += SubForm_Disposed;  // Disposeイベントを追加
             StartPosition = FormStartPosition.CenterScreen;
-            //WarningTimer.WarningAction += WarningTimer_WarningAction;
-            //WarningTimer.Add(WarningTimer_WarningAction);
 
         }
 
@@ -30,8 +28,7 @@ namespace オブザーバー
         /// <param name="e"></param>
         private void SubForm_Disposed(object sender, EventArgs e)
         {
-            //WarningTimer.WarningAction -= WarningTimer_WarningAction;// Actionを抜く
-            WarningTimer.Remove(WarningTimer_WarningAction);// Actionを抜く
+            WarningTimer.Remove(this);// Actionを抜く
         }
 
         private void WarningTimer_WarningAction(bool isWarning)
@@ -60,12 +57,34 @@ namespace オブザーバー
         {
             if (checkBox1.Checked)
             {
-                WarningTimer.Add(WarningTimer_WarningAction);
+                WarningTimer.Add(this);
             }
             else
             {
-                WarningTimer.Remove(WarningTimer_WarningAction);
+                WarningTimer.Remove(this);
             }
+        }
+
+        public void Update(bool isWarning)
+        {
+            // コントロールが作成されたスレッド以外のスレッド上で
+            // UIスレッドで作成したコントロールにアクセスできない
+            // ので、以下をおまじない的に書く
+            this.Invoke((Action)delegate ()
+            {
+
+                if (isWarning)
+                {
+                    WarningLabel.Text = "警報";
+                    WarningLabel.BackColor = Color.Red;
+                }
+                else
+                {
+                    WarningLabel.Text = "正常";
+                    WarningLabel.BackColor = Color.Lime;
+                }
+            });
+
         }
     }
 }
