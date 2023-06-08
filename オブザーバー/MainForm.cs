@@ -7,11 +7,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Threading;
 
 namespace オブザーバー
 {
-    public partial class MainForm : Form, INotify
+    public partial class MainForm : Form
     {
+        private MainViewModel _vm
+            = new MainViewModel(Dispatcher.CurrentDispatcher);
+
         public MainForm()
         {
             InitializeComponent();
@@ -19,7 +23,8 @@ namespace オブザーバー
             this.Disposed += MainForm_Disposed;  // Disposeイベントを追加
             StartPosition = FormStartPosition.CenterScreen;
 
-            WarningTimer.Add(this);// MainFormをINotifyとして追加する
+
+            WarningLabel.DataBindings.Add("Text", _vm, nameof(_vm.WarningLabelText));// ここでフレームワーク内部でPropertyChangedにVewModelのプロパティ名に応じて、各コントロールの値を変えるイベントが登録される
         }
 
         /// <summary>
@@ -29,28 +34,7 @@ namespace オブザーバー
         /// <param name="e"></param>
         private void MainForm_Disposed(object sender, EventArgs e)
         {
-            WarningTimer.Remove(this);
-        }
-
-        private void WarningTimer_WarningAction(bool isWarning)
-        {
-            // コントロールが作成されたスレッド以外のスレッド上で
-            // UIスレッドで作成したコントロールにアクセスできない
-            // ので、以下をおまじない的に書く
-            this.Invoke((Action)delegate ()
-            {
-                if (isWarning)
-                {
-                    WarningLabel.Text = "警報";
-                    WarningLabel.BackColor = Color.Red;
-                }
-                else
-                {
-                    WarningLabel.Text = "正常";
-                    WarningLabel.BackColor = Color.Lime;
-                }
-            });
-
+            _vm?.Dispose();
         }
 
 
@@ -60,25 +44,6 @@ namespace オブザーバー
             f.Show();
         }
 
-        public void Update(bool isWarning)
-        {
-            // コントロールが作成されたスレッド以外のスレッド上で
-            // UIスレッドで作成したコントロールにアクセスできない
-            // ので、以下をおまじない的に書く
-            this.Invoke((Action)delegate ()
-            {
-                if (isWarning)
-                {
-                    WarningLabel.Text = "警報";
-                    WarningLabel.BackColor = Color.Red;
-                }
-                else
-                {
-                    WarningLabel.Text = "正常";
-                    WarningLabel.BackColor = Color.Lime;
-                }
-            });
 
-        }
     }
 }
