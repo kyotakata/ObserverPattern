@@ -14,7 +14,7 @@ namespace オブザーバー
     public partial class MainForm : Form
     {
         private MainViewModel _vm
-            = new MainViewModel(Dispatcher.CurrentDispatcher);
+            = new MainViewModel(Dispatcher.CurrentDispatcher, Program.WarningTimer);
 
         public MainForm()
         {

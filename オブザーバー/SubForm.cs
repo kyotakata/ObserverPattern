@@ -28,7 +28,7 @@ namespace オブザーバー
         /// <param name="e"></param>
         private void SubForm_Disposed(object sender, EventArgs e)
         {
-            WarningTimer.Remove(this);// Actionを抜く
+            Program.WarningTimer.Remove(this);// Actionを抜く
         }
 
         private void WarningTimer_WarningAction(bool isWarning)
@@ -57,11 +57,11 @@ namespace オブザーバー
         {
             if (checkBox1.Checked)
             {
-                WarningTimer.Add(this);
+                Program.WarningTimer.Add(this);
             }
             else
             {
-                WarningTimer.Remove(this);
+                Program.WarningTimer.Remove(this);
             }
         }
 
